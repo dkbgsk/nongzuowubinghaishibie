@@ -1,17 +1,4 @@
-/*
- * Copyright (c) 2022 HiSilicon (Shanghai) Technologies CO., LIMITED.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 #include <iostream>
 #include <cstdio>
@@ -47,7 +34,7 @@ static AiPlugLib g_tennisWorkPlug = {0};
 static HI_CHAR tennisDetectThreadName[16] = {0};
 
 /*
- * ÉèÖÃVIÉè±¸ĞÅÏ¢
+ * è®¾ç½®VIè®¾å¤‡ä¿¡æ¯
  * Set VI device information
  */
 static void TennisViCfgSetDev(ViCfg* self, int devId, WDR_MODE_E wdrMode)
@@ -60,7 +47,7 @@ static void TennisViCfgSetDev(ViCfg* self, int devId, WDR_MODE_E wdrMode)
 }
 
 /*
- * ÉèÖÃVIÍ¨µÀ
+ * è®¾ç½®VIé€šé“
  * Set up the VI channel
  */
 static void TennisViCfgSetChn(ViCfg* self, int chnId, PIXEL_FORMAT_E pixFormat,
@@ -95,7 +82,7 @@ static HI_VOID TennisStVbParamCfg(VbCfg *self)
     self->u32MaxPoolCnt              = 2;
 
     /*
-     * »ñÈ¡Ò»Ö¡Í¼Æ¬µÄbuffer´óĞ¡
+     * è·å–ä¸€å¸§å›¾ç‰‡çš„bufferå¤§å°
      * Get picture buffer size
      */
     g_aicTennisMediaInfo.u32BlkSize = COMMON_GetPicBufferSize(g_aicTennisMediaInfo.stSize.u32Width,
@@ -105,7 +92,7 @@ static HI_VOID TennisStVbParamCfg(VbCfg *self)
     self->astCommPool[0].u32BlkCnt   = 10;
 
     /*
-     * »ñÈ¡raw bufferµÄ´óĞ¡
+     * è·å–raw bufferçš„å¤§å°
      * Get raw buffer size
      */
     g_aicTennisMediaInfo.u32BlkSize = VI_GetRawBufferSize(g_aicTennisMediaInfo.stSize.u32Width,
@@ -227,8 +214,8 @@ static HI_S32 TennisDetectAiThreadProcess(HI_VOID)
 }
 
 /*
- * ½«sensor²É¼¯µ½Êı¾İÏÔÊ¾µ½Òº¾§ÆÁÉÏ£¬Í¬Ê±´´½¨Ïß³ÌÔËĞĞÍøÇò¼ì²âÍÆÀí¼ÆËã
- * ÊÓÆµÊäÈë->ÊÓÆµ´¦Àí×ÓÏµÍ³->ÊÓÆµÊä³ö->ÏÔÊ¾ÆÁ
+ * å°†sensoré‡‡é›†åˆ°æ•°æ®æ˜¾ç¤ºåˆ°æ¶²æ™¶å±ä¸Šï¼ŒåŒæ—¶åˆ›å»ºçº¿ç¨‹è¿è¡Œç½‘çƒæ£€æµ‹æ¨ç†è®¡ç®—
+ * è§†é¢‘è¾“å…¥->è§†é¢‘å¤„ç†å­ç³»ç»Ÿ->è§†é¢‘è¾“å‡º->æ˜¾ç¤ºå±
  *
  * Display the data collected by the sensor on the LCD screen,
  * and at the same time create a thread to run tennis detect reasoning calculations
@@ -240,13 +227,13 @@ HI_S32 sample_media_opencv::SAMPLE_MEDIA_TENNIS_DETECT(HI_VOID)
     HI_S32 fd = 0;
 
     /*
-     * ÅäÖÃVI²ÎÊı
+     * é…ç½®VIå‚æ•°
      * Config VI parameter
      */
     TennisViPramCfg();
 
     /*
-     * Í¨¹ıSensorĞÍºÅ»ñÈ¡enPicSize
+     * é€šè¿‡Sensorå‹å·è·å–enPicSize
      * Obtain enPicSize through the Sensor type
      */
     s32Ret = SAMPLE_COMM_VI_GetSizeBySensor(g_aicTennisMediaInfo.viCfg.astViInfo[0].stSnsInfo.enSnsType,
@@ -254,7 +241,7 @@ HI_S32 sample_media_opencv::SAMPLE_MEDIA_TENNIS_DETECT(HI_VOID)
     SAMPLE_CHECK_EXPR_RET(s32Ret != HI_SUCCESS, s32Ret, "get pic size by sensor fail, s32Ret=%#x\n", s32Ret);
 
     /*
-     * ¸ù¾İenPicSize£¬µÃµ½Í¼Æ¬µÄ¿í¸ß
+     * æ ¹æ®enPicSizeï¼Œå¾—åˆ°å›¾ç‰‡çš„å®½é«˜
      * Get picture size(w*h), according enPicSize
      */
     s32Ret = SAMPLE_COMM_SYS_GetPicSize(g_aicTennisMediaInfo.enPicSize, &g_aicTennisMediaInfo.stSize);
@@ -262,27 +249,27 @@ HI_S32 sample_media_opencv::SAMPLE_MEDIA_TENNIS_DETECT(HI_VOID)
     SAMPLE_CHECK_EXPR_RET(s32Ret != HI_SUCCESS, s32Ret, "get picture size failed, s32Ret=%#x\n", s32Ret);
 
     /*
-     * ÅäÖÃVB²ÎÊı
+     * é…ç½®VBå‚æ•°
      * Config VB parameter
      */
     TennisStVbParamCfg(&g_aicTennisMediaInfo.vbCfg);
 
     /*
-     * ÊÓÆµ»º´æ³Ø³õÊ¼»¯ÒÔ¼°MPIÏµÍ³³õÊ¼»¯
+     * è§†é¢‘ç¼“å­˜æ± åˆå§‹åŒ–ä»¥åŠMPIç³»ç»Ÿåˆå§‹åŒ–
      * VB init & MPI system init
      */
     s32Ret = SAMPLE_COMM_SYS_Init(&g_aicTennisMediaInfo.vbCfg);
     SAMPLE_CHECK_EXPR_RET(s32Ret != HI_SUCCESS, s32Ret, "system init failed, s32Ret=%#x\n", s32Ret);
 
     /*
-     * ÉèÖÃVOÖÁMIPIÍ¨Â·£¬»ñÈ¡MIPIÉè±¸
+     * è®¾ç½®VOè‡³MIPIé€šè·¯ï¼Œè·å–MIPIè®¾å¤‡
      * Set VO config to MIPI, get MIPI device
      */
     s32Ret = SAMPLE_VO_CONFIG_MIPI(&fd);
     SAMPLE_CHECK_EXPR_GOTO(s32Ret != HI_SUCCESS, EXIT, "CONFIG MIPI FAIL.s32Ret:0x%x\n", s32Ret);
 
     /*
-     * ÅäÖÃVPSS²ÎÊı
+     * é…ç½®VPSSå‚æ•°
      * Config VPSS parameter
      */
     TennisVpssParamCfg();
@@ -292,20 +279,20 @@ HI_S32 sample_media_opencv::SAMPLE_MEDIA_TENNIS_DETECT(HI_VOID)
     g_aicTennisMediaInfo.vpssChn0 = 1;
 
     /*
-     * ÅäÖÃVO²ÎÊı
+     * é…ç½®VOå‚æ•°
      * Config VO parameter
      */
     TennisStVoParamCfg(&g_aicTennisMediaInfo.voCfg);
 
     /*
-     * Æô¶¯VOµ½MIPI lcdÍ¨Â·
+     * å¯åŠ¨VOåˆ°MIPI lcdé€šè·¯
      * Start VO to MIPI lcd
      */
     s32Ret = SampleCommVoStartMipi(&g_aicTennisMediaInfo.voCfg);
     SAMPLE_CHECK_EXPR_GOTO(s32Ret != HI_SUCCESS, EXIT1, "start vo FAIL. s32Ret: 0x%x\n", s32Ret);
 
     /*
-     * VPSS°ó¶¨VO
+     * VPSSç»‘å®šVO
      * VPSS bind VO
      */
     s32Ret = SAMPLE_COMM_VPSS_Bind_VO(g_aicTennisMediaInfo.vpssGrp,
@@ -314,7 +301,7 @@ HI_S32 sample_media_opencv::SAMPLE_MEDIA_TENNIS_DETECT(HI_VOID)
     SAMPLE_PRT("vpssGrp:%d, vpssChn:%d\n", g_aicTennisMediaInfo.vpssGrp, g_aicTennisMediaInfo.vpssChn0);
 
     /*
-     * ´´½¨¹¤×÷Ïß³ÌÔËĞĞai
+     * åˆ›å»ºå·¥ä½œçº¿ç¨‹è¿è¡Œai
      * Create work thread to run ai
      */
     s32Ret = TennisDetectAiThreadProcess();
@@ -322,7 +309,7 @@ HI_S32 sample_media_opencv::SAMPLE_MEDIA_TENNIS_DETECT(HI_VOID)
     PAUSE();
     s_bOpenCVProcessStopSignal = HI_TRUE;
     /*
-     * µÈ´ıÒ»¸öÏß³Ì½áÊø£¬Ïß³Ì¼äÍ¬²½µÄ²Ù×÷
+     * ç­‰å¾…ä¸€ä¸ªçº¿ç¨‹ç»“æŸï¼Œçº¿ç¨‹é—´åŒæ­¥çš„æ“ä½œ
      * Waiting for the end of a thread, the operation of synchronization between threads
      */
     pthread_join(g_openCVProcessThread, nullptr);
