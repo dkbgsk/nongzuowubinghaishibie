@@ -1,17 +1,3 @@
-/*
- * Copyright (c) 2022 HiSilicon (Shanghai) Technologies CO., LIMITED.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -385,19 +371,7 @@ int UartSend(int fd, char *buf, int len)
     return count;
 }
 
-/*
- * @berf uart 读取数据
- * @param int uart_fd: 串口文件描述符
- * @param void *buf: 读取数据buffer
- * @param int len: 数据缓冲区长度
- * @param int timeoutMs: 读取数据时间
- *
- * @berf uart read
- * @param int uart_fd: uart file descriptor
- * @param void *buf: read data buf
- * @param int len: data buf len
- * @param int timeoutMs: read data time
- */
+
 int UartRead(int uartFd, char *buf, int len, int timeoutMs)
 {
     int ret = 0;
