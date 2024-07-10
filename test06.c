@@ -132,10 +132,7 @@ HI_S32 CnnTrashClassifyLoadModel(uintptr_t* model, OsdSet* osds)
     return ret;
 }
 
-/*
- * 卸载垃圾分类wk模型
- * Unload the trash classification wk model
- */
+
 HI_S32 CnnTrashClassifyUnloadModel(uintptr_t model)
 {
     CnnDestroy((SAMPLE_SVP_NNIE_CFG_S*)model);
@@ -307,12 +304,7 @@ static HI_S32 CnnTrashClassifyFlag(const RecogNumInfo items[], HI_S32 itemNum, H
 }
 
 
-/*
- * 先进行预处理，再使用NNIE进行硬件加速推理，不支持层通过AI CPU进行计算
- *
- * Perform preprocessing first, and then use NNIE for hardware accelerated inference,
- * and do not support layers to be calculated by AI CPU
- */
+
 HI_S32 CnnTrashClassifyCal(uintptr_t model, VIDEO_FRAME_INFO_S *srcFrm, VIDEO_FRAME_INFO_S *resFrm)
 {
     SAMPLE_PRT("begin CnnTrashClassifyCal\n");
@@ -355,19 +347,12 @@ HI_S32 CnnTrashClassifyCal(uintptr_t model, VIDEO_FRAME_INFO_S *srcFrm, VIDEO_FR
         }
     }
 
-    /*
-     * 仅当计算结果与之前计算发生变化时，才重新打OSD输出文字
-     * Only when the calculation result changes from the previous calculation, re-print the OSD output text
-     */
     if (strcmp(osdBuf, prevOsd) != 0) {
         HiStrxfrm(prevOsd, osdBuf, sizeof(prevOsd));
         HI_OSD_ATTR_S rgn;
         TxtRgnInit(&rgn, osdBuf, TXT_BEGX, TXT_BEGY, ARGB1555_YELLOW2); // font width and heigt use default 40
         OsdsSetRgn(g_osdsTrash, g_osd0Trash, &rgn);
-        /*
-         * 用户向VPSS发送数据
-         * User sends data to VPSS
-         */
+    
         ret = HI_MPI_VPSS_SendFrame(0, 0, srcFrm, 0);
         if (ret != HI_SUCCESS) {
             SAMPLE_PRT("Error(%#x), HI_MPI_VPSS_SendFrame failed!\n", ret);
